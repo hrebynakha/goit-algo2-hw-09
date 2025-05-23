@@ -57,9 +57,10 @@ def hill_climbing(func: callable, bounds, iterations=1000, epsilon=1e-6):
 
 def get_random_neighbor(current, bounds,step_size=0.1):
     x, y = current
-    new_neighbors = np.array(
-        (x + random.uniform(-step_size, step_size), y + random.uniform(-step_size, step_size))
-    )
+    new_neighbors = np.array([
+    x + random.uniform(-step_size, step_size),
+    y + random.uniform(-step_size, step_size)
+])
 
     lower_bounds = np.array([b[0] for b in bounds])
     upper_bounds = np.array([b[1] for b in bounds])
@@ -70,11 +71,7 @@ def get_random_neighbor(current, bounds,step_size=0.1):
 # Random Local Search
 def random_local_search(func, bounds, iterations=1000, epsilon=1e-6):
     """Random Local Search algorithm"""
-
-    # current_point = starting_point
-    # current_value = objective_function(*current_point)
     x_start = np.array([np.random.uniform(low, high) for (low, high) in bounds])
-    print("X start", x_start)
     current_point = x_start
     current_value = func(current_point)
     history = [current_point.copy()] 
@@ -83,14 +80,12 @@ def random_local_search(func, bounds, iterations=1000, epsilon=1e-6):
         new_point = get_random_neighbor(current_point, bounds)
         new_value = func(new_point)
         if new_value < current_value:
+            if abs(new_value - current_value) < epsilon:
+                break
             current_point, current_value = new_point, new_value
             history.append(current_point.copy())
         
-        if abs(new_value - current_value) < epsilon:
-            print("Current value", current_value)
-            print("New value", new_value)
-            print("Break")
-            # break
+           
         
 
     return current_point, current_value, history
