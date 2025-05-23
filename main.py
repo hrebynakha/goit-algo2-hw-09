@@ -55,7 +55,7 @@ def hill_climbing(func: callable, bounds, iterations=1000, epsilon=1e-6):
     return current_point, current_value, history
 
 
-def get_random_neighbor(current, bounds,step_size=0.5):
+def get_random_neighbor(current, bounds,step_size=0.1):
     x, y = current
     new_neighbors = np.array(
         (x + random.uniform(-step_size, step_size), y + random.uniform(-step_size, step_size))
